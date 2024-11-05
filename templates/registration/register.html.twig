@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %} {% block title %}Register{% endblock %} {% block body %}
+
+<link rel="stylesheet" href="{{ asset('assets/css/register.css') }}" type="text/css" />
+
+<div class="container register">
+  <div class="register-form">
+    {% for flash_error in app.flashes('verify_email_error') %}
+    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <p class="titre-register">S'incrire</p>
+
+    <div class="container separation-form">
+      <div class="separation"></div>
+    </div>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+    {{
+      form_row(registrationForm.name, {
+        label: "Nom utilisateur : ",
+        attr: { class: " form " }
+      })
+    }}
+    {{
+      form_row(registrationForm.email, {
+        label: "Adresse mail : ",
+        attr: { class: " form" }
+      })
+    }}
+    {{
+      form_row(registrationForm.deliveryAddress, {
+        label: "Addresse de livraison : ",
+        attr: { class: " form" }
+      })
+    }}
+    {{
+      form_row(registrationForm.plainPassword.first, {
+        label: "Mot de passe : ",
+        attr: { class: " form" }
+      })
+    }}
+    {{
+      form_row(registrationForm.plainPassword.second, {
+        label: "Confirmer le mot de passe :  ",
+        attr: { class: "form mb-2" }
+      })
+    }}
+
+    <button type="submit" class="btn btn-primary">Créer un compte</button>
+    {{ form_end(registrationForm) }}
+
+    <div class="container separation-form">
+      <div class="separation"></div>
+    </div>
+
+    <p class="titre-register">Déjà inscrit ?</p>
+    <button type="submit" class="btn btn-primary">
+      <a href="{{ path('app_login') }}" class="text-light text-decoration-none"> Se Connecter</a>
+    </button>
+  </div>
+</div>
+{% endblock %}

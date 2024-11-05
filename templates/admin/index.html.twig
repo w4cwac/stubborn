@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %} {% block title %}Admin - Liste des produits{% endblock %} {% block
+body %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css" />
+
+{% include '/partials/flash.html.twig'%}
+
+{{ form_start(formCreate) }}
+<div class="container container-admin mt-5">
+  <div class="d-flex">
+    {{form_row(formCreate.image, {'attr': {'onchange': 'previewImage(event)'}} )}}
+    <img id="imagePreview" alt="Aperçu de l'image" class="hidden-image" />
+
+    {{ form_row(formCreate.name, { label: "Nom du produit" }) }}
+    {{ form_row(formCreate.price, { label: "Prix" }) }}
+    {{ form_row(formCreate.stockXS, { label: "Stock XS" }) }}
+    {{ form_row(formCreate.stockS, { label: "Stock S" }) }}
+    {{ form_row(formCreate.stockM, { label: "Stock M" }) }}
+    {{ form_row(formCreate.stockL, { label: "Stock L" }) }}
+    {{ form_row(formCreate.stockXL, { label: "Stock XL" }) }}
+  </div>
+  <div class="button">
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+  </div>
+</div>
+{{ form_end(formCreate) }}
+
+<br />
+
+{% for product in products %}
+<div class="container container-admin my-4">
+  {{ form_start(formsProduct[product.id]) }}
+
+  <div class="d-flex">
+    <div>
+      <img
+        src="{{ asset('assets/uploads/' ~ product.image) }}"
+        alt="{{ product.name }}"
+        style="max-width: 200px"
+        id="currentImage-{{ product.id }}"
+      />
+    </div>
+    {{form_row(formsProduct[product.id].image, {'attr': {'onchange': 'previewModifiedImage(event, '~ product.id ~')'}})}}
+    <img id="imagePreview-{{ product.id }}" alt="Aperçu de l'image" class="hidden-image" />
+    
+    {{ form_row(formsProduct[product.id].name, { label: "Nom du produit" }) }}
+    {{ form_row(formsProduct[product.id].price, { label: "Prix" }) }}
+    {{ form_row(formsProduct[product.id].stockXS, { label: "Stock XS" }) }}
+    {{ form_row(formsProduct[product.id].stockS, { label: "Stock S" }) }}
+    {{ form_row(formsProduct[product.id].stockM, { label: "Stock M" }) }}
+    {{ form_row(formsProduct[product.id].stockL, { label: "Stock L" }) }}
+    {{ form_row(formsProduct[product.id].stockXL, { label: "Stock XL" }) }}</div>
+  
+    <div class="button">
+        <a href="{{ path('delete_product', { id: product.id }) }}" class="btn btn-danger">Supprimer</a>
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    </div>
+    {{ form_end(formsProduct[product.id]) }}
+</div>
+{% endfor %}
+
+<script src="{{ asset('assets/js/PreviewImage.js') }}"></script>
+{% endblock %}
